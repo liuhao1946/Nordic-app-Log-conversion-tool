@@ -72,7 +72,7 @@ def main():
                     window['-STATE-'].update('转换失败')
                     sg.popup(result)
                 else:
-                    window['-STATE-'].update('转换完成:'+ file_path)
+                    window['-STATE-'].update('转换完成:'+ file_path.rstrip('.txt') + '-conversion.txt')
                     sg.popup('转换成功')
 
         if event == sg.WIN_CLOSED or event == 'Exit':
