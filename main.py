@@ -81,8 +81,7 @@ def data_check(filepath,err_list,sn_index = 1):
                 old = new
                 total_len += 1
             except Exception as e:
-                sg.popup(e)
-                break
+                return [str(e)]
 
     return [err_cnt,total_len]
 
@@ -96,7 +95,7 @@ def main():
               [sg.Checkbox('包含时间戳', default=False, key = '-TIME-'),sg.Checkbox('.csv', default=True, key = '-F_FORMAT-')],
               [sg.Button('转换',key='-SW-',size=(10,2)),sg.T('等待转换',size=(40,4),key='-STATE-')],
               [sg.Button('检查SN',key='-CHECK-',size=(10,2))]]
-    window = sg.Window('Nordic APP Log Conversion tool v1.2', layout, icon=base64_main_icon)
+    window = sg.Window('Nordic APP Log Conversion Tool 1.5.0', layout, icon=base64_main_icon)
 
     while True:
         event, values = window.read()
@@ -131,18 +130,22 @@ def main():
                     stat = data_check(file_path,err_list,1)
                 else:
                     stat = data_check(file_path, err_list,0)
-                err_str += '丢包数量：' + str(stat[0]) + '\n'
-                err_str += '总包数：' + str(stat[1]) + '\n'
-                if stat[1] != 0:
-                    err_str += '错误率:%0.6f' % (stat[0] / stat[1]) + '%' + '\n'
+
+                if len(stat) == 1:
+                    sg.popup('SN格式错误:'+stat[0])
                 else:
-                    err_str += '错误率:0 %' + '\n'
-                err_str += '错误SN:'
-                if len(err_list) > 0:
-                    err_str += ''.join([str(v) + ', ' for v in err_list])
-                else:
-                    err_str += '空'
-                sg.Print(err_str)
+                    err_str += '丢包数量：' + str(stat[0]) + '\n'
+                    err_str += '总包数：' + str(stat[1]) + '\n'
+                    if stat[1] != 0:
+                        err_str += '错误率:%0.6f' % (stat[0] / stat[1]) + '%' + '\n'
+                    else:
+                        err_str += '错误率:0 %' + '\n'
+                    err_str += '错误SN:'
+                    if len(err_list) > 0:
+                        err_str += ''.join([str(v) + ', ' for v in err_list])
+                    else:
+                        err_str += '空'
+                    sg.Print(err_str)
             else:
                 sg.popup('数据文件格式错误。请使用csv文件')
         elif event == sg.WIN_CLOSED:
