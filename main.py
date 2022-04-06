@@ -92,7 +92,7 @@ def main():
 
     layout = [[sg.Frame('Nordic Log File',src_log_layout)],
               [sg.Frame('File SN Check',sn_check_layout)],
-              [sg.Checkbox('包含时间戳', default=False, key = '-TIME-'),sg.Checkbox('.csv', default=True, key = '-F_FORMAT-')],
+              [sg.Checkbox('包含时间戳', default=False, key = '-TIME-'),sg.Checkbox('.csv', default=True,enable_events=True,key = '-F_FORMAT_CSV-'),sg.Checkbox('.txt', default=False,enable_events=True,key = '-F_FORMAT_TXT-')],
               [sg.Button('转换',key='-SW-',size=(10,2)),sg.T('等待转换',size=(40,4),key='-STATE-')],
               [sg.Button('检查SN',key='-CHECK-',size=(10,2))]]
     window = sg.Window('Nordic APP Log Conversion Tool 1.5.0', layout, icon=base64_main_icon)
@@ -103,7 +103,7 @@ def main():
         if event == '-SW-':
             file_path = window['-SRC_LOG_FILE-'].get()
             fetch_log_time = window['-TIME-'].get()
-            if window['-F_FORMAT-'].get():
+            if window['-F_FORMAT_CSV-'].get():
                 file_format = '.csv'
             else:
                 file_format = '.txt'
@@ -148,6 +148,12 @@ def main():
                     sg.Print(err_str)
             else:
                 sg.popup('数据文件格式错误。请使用csv文件')
+        elif event == '-F_FORMAT_CSV-':
+            window['-F_FORMAT_TXT-'].update(False)
+            window['-F_FORMAT_CSV-'].update(True)
+        elif event == '-F_FORMAT_TXT-':
+            window['-F_FORMAT_CSV-'].update(False)
+            window['-F_FORMAT_TXT-'].update(True)
         elif event == sg.WIN_CLOSED:
             break
 
