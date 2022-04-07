@@ -1,6 +1,7 @@
 ## 软件功能说明
 
-![]()
+![](https://github.com/liuhao1946/Nordic-app-Log-conversion-tool/blob/master/image/%E8%BD%AF%E4%BB%B6%E6%88%AA%E5%9B%BE.jpg)
+
 该软件用于从Nordic App保存的Log文件中提取由MCU端发送的字符串数据，具有有以下功能：
 
 * 提取原始log文件中由MCU发出的字符内容
@@ -9,6 +10,7 @@
 * 检查SN，统计掉包信息
 
 ## 软件使用说明
+
 * 如果以csv格式保存提取后的文件，要求MCU端发送的数据需要符合csv格式。比如：
   > (序列号，数据，数据)
   > 123,70,60
